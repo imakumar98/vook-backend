@@ -1,0 +1,125 @@
+# import * from "./generated/prisma.graphql"
+
+type SuccessMessage {
+    message: String
+}
+
+type Mutation {
+    
+    # signup(email: String!, password: String!, name: String!): User!
+    # signin(email: String!, password: String!): User!
+    # signout: SuccessMessage
+    # requestReset(email: String!): SuccessMessage
+    # resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+    # addToCart(id:ID!,quantity: Int!,type: String!): CartProduct
+    # removeFromCart(id:ID!): CartProduct
+    # createOrder(
+    #     email: String
+    #     number: String
+    #     streetAddress: String
+    #     city: String
+    #     state: String
+    #     postalCode: String
+    #     couponCode: String
+    #     isVookBalanceUsed: Boolean
+    #     addressSetToDefault: Boolean
+
+    # ): Order!
+
+    # #Postal Code
+    # createPostalCode(code:String!): PostalCode!
+
+    # submitContactUs(firstName: String, lastName: String, email: String, number: String, message: String): SuccessMessage!
+
+    #CREATE BOOK CATEGORIES
+    createCategory(name: String!): SuccessMessage!
+
+    #CREATE BOOK TYPES
+    createType(name: String!,category:String!): SuccessMessage!
+
+    #CREATE BOOK PUBLISHER
+    createPublisher(name:String!, type: String!, discount: Int!): SuccessMessage!
+
+    #CREATE BOOK
+    createBook(
+        title: String!
+        author: String!
+        publisher: String!
+        category: String!
+        type: String!
+        subject: String!
+        edition: Int!
+        quantity: Int!,
+        detail: String!,
+        description: String,
+        mrp: Int!,
+        tags: [String!],
+        images: [String!],
+        slug: String!,
+        
+    ): Book!
+
+    #DELETE BOOK
+    deleteBook(id:String!):SuccessMessage!
+
+    #UPDATE BOOK
+    updateBook(
+        id: String!
+        title: String!
+        author: String!
+        publisher: String!
+        category: String!
+        type: String!
+        subject: String!
+        edition: Int!
+        quantity: Int!,
+        detail: String!,
+        description: String,
+        mrp: Int!,
+        tags: [String!],
+        images: [String!],
+        slug: String!
+    ): SuccessMessage!
+
+    
+
+   
+}
+
+type Query {
+
+    #GET USER
+    me: User
+
+    #GET ALL BOOKS
+    getAllBooks: [Book!]!
+
+    #GET SINGLE BOOK
+    getSingleBook(id:String!): Book!
+
+    #GET BOOKS BY CATEGORY
+    getBooksByCategory(where: BookWhereInput): [Book]!
+
+    book(where: BookWhereUniqueInput!): Book!
+
+    #GET ORDER BY ID OR ORDERID
+    order(where: OrderWhereUniqueInput!): Order!
+
+    #GET MY ORDERS
+    getMyOrders:[Order!]!
+
+    
+
+   
+
+    #GET ALL CATEGORIES
+    getCategories: [Category!]!
+
+    #GET ALL TYPES
+    getTypes: [Type!]!
+
+    #GET ALL PUBLISHER 
+    getPublishers: [Publisher!]! 
+}
+
+

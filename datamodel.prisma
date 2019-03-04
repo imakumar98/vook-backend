@@ -1,0 +1,140 @@
+enum Permission {
+  ADMIN
+  USER 
+  BOOKCREATE
+  BOOKUPDATE
+  BOOKDELETE
+  PERMISSIONUPDATE
+}
+
+#USER DATAMODEL
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  number: String
+  walletBalance: Int @default(value:0)
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission]
+  cart: [CartBook!]!
+  streetAddress: String
+  city: String
+  state: String
+  postalCode: String
+}
+
+#BOOK DATAMODEL
+type Book {
+  id: ID! @unique
+  sku: Int!
+  title: String!
+  author: String!
+  publisher: Publisher! @relation(name: "BookPublisher")
+  category: Category! @relation(name: "BookCategory")
+  type: Type! @relation(name: "BookType")
+  subject: String!
+  edition: Int!
+  active: Boolean!
+  quantity: Int!
+  mrp: Int!
+  detail: String!
+  description: String
+  tags: [Tag!]! @relation(name: "BookTags" onDelete: CASCADE)
+  images: [Image!]! @relation(name: "BookImages" onDelete: CASCADE)
+  slug: String! @unique
+  dateTime: DateTime
+
+}
+
+#BOOK CATEGORY DATAMODEL
+type Category {
+  id: ID! @unique
+  name: String! @unique
+  books: [Book!]! @relation(name: "BookCategory")
+  types: [Type!]! @relation(name: "CategoryType")
+  image : String
+  description : String
+}
+
+#BOOK TYPE DATAMODEL
+type Type {
+  id: ID! @unique
+  name: String! @unique
+  books: [Book!]! @relation(name: "BookType")
+  category: Category! @relation(name:"CategoryType")
+  publishers: [Publisher!]! @relation(name: "TypePublisher")
+}
+
+#BOOK PUBLISHER DATAMODEL
+type Publisher {
+  id: ID! @unique
+  name: String! @unique
+  discount: Int!
+  books: [Book!]! @relation(name: "BookPublisher")
+  type: Type! @relation(name: "TypePublisher")
+}
+
+#BOOK IMAGES DATAMODEL
+type Image {
+  id: ID! @unique
+  src: String!
+  book: Book! @relation(name: "BookImages")
+}
+
+#BOOK TAGS DATAMODEL
+type Tag {
+  id: ID! @unique
+  text: String!
+  book: Book! @relation(name: "BookTags")
+}
+
+#CARTBOOK DATAMODEL : SINGLE CART BOOK
+type CartBook {
+  id: ID! @unique
+  quantity: Int! @default(value:1)
+  book: Book!
+  user: User!
+}
+
+#ORDER DATAMODEL
+type Order {
+  id: ID! @unique
+  isVookBalanceUsed: Boolean
+  addressSetToDefault: Boolean
+  couponCode: String
+  streetAddress: String
+  phone: String
+  email: String
+  city: String
+  state: String
+  postalCode: String
+  orderId: Int!
+  books: [OrderBook!]!
+  subTotal: Float
+  total: Float
+  status: String!
+  user: User!
+  orderDateTime: DateTime
+}
+
+#ORDERBOOK DATAMODEL : SINGLE ORDER BOOK
+type OrderBook {
+  id: ID! @unique
+  title: String!
+  author: String!
+  publisher: String!
+  image: String!
+  price: Float
+  quantity: Int! @default(value:1)
+  user: User
+}
+
+#POSTALCODE DATAMODEL
+type PostalCode {
+  id: ID! @unique
+  code: String! @unique
+}
+
+

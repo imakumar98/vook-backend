@@ -1,0 +1,12 @@
+endpoint: https://prisma.server.vook.in/vook/dev
+datamodel: datamodel.prisma
+# secret: Passion!@34
+generate:
+  - generator: javascript-client
+    output: ./src/generated/prisma-client/
+
+hooks:
+  post-deploy:
+    - echo "Deployment finished"
+    - graphql get-schema
+    - graphql prepare
