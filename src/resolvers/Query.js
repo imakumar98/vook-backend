@@ -2,7 +2,7 @@ const {forwardTo} = require('prisma-binding');
 
 const Query = {
 
-    //GET ALL BOOKS QUERY
+    //GET ALL BOOKS
     async getAllBooks(parent,args,ctx,info){
         return await ctx.db.query.books({
             where : {active:true},
@@ -11,6 +11,7 @@ const Query = {
             id
             title
             author
+            dateTime
             publisher {
                 name
                 discount
@@ -30,14 +31,46 @@ const Query = {
         
     },
 
+    //GET SINGLE BOOK BY ID
     async getSingleBook(parent,args,ctx,info){
-
         const book = await ctx.db.query.book({
             where : {id: args.id}
         },info);
 
         if(!book) throw new Error("Book Not Exist");
         
+        return book;
+
+    },
+
+     //GET SINGLE BOOK BY SLUG
+     async getSingleBookBySlug(parent,args,ctx,info){
+        const book = await ctx.db.query.book({
+            where : {slug: args.slug}
+        },`{
+            id
+            title
+            author
+            dateTime
+            detail
+            publisher {
+                name
+                discount
+            }
+            category{
+                name
+            }
+            type {
+                name
+            }
+            images {
+                src
+            }
+            mrp
+            sku,
+            slug
+        }`);
+        if(!book) throw new Error("Book Not Exist");
         return book;
 
     },
@@ -78,8 +111,8 @@ const Query = {
 
     //GET BOOK BY CATEGORY
     async getBooksByCategory(parent,args,ctx,info){
-        return await ctx.db.query.books({
-            where: {category: args.category}
+        return await ctx.db.query.category({
+            where: {id: args.id}
         },info);
     },
 

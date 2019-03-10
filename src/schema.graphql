@@ -91,18 +91,21 @@ type Query {
     #GET USER
     me: User
 
-    #GET ALL BOOKS
+    #GET ALL BOOKS (ADMIN)
     getAllBooks: [Book!]!
 
-    #GET SINGLE BOOK
+    #GET SINGLE BOOK (ADMIN)
     getSingleBook(id:String!): Book!
 
-    #GET BOOKS BY CATEGORY
-    getBooksByCategory(where: BookWhereInput): [Book]!
+    #GET SINGLE BOOK BY SLUG (PUBLIC)
+    getSingleBookBySlug(slug:String!):Book!
+
+    #GET BOOKS BY CATEGORY (ADMIN, PUBLIC)
+    getBooksByCategory(id: String!): Category!
 
     book(where: BookWhereUniqueInput!): Book!
 
-    #GET ORDER BY ID OR ORDERID
+    #GET ORDER BY ID OR ORDERID (ADMIN, PUBLIC)
     order(where: OrderWhereUniqueInput!): Order!
 
     #GET MY ORDERS

@@ -1,3 +1,4 @@
+//ORDER PROCESSED SMS TEXT
 module.exports = {
     getOrderProcessedText = (customerName,orderId, deliveryTime)=>{
         return `

@@ -90,6 +90,7 @@ type Tag {
   book: Book! @relation(name: "BookTags")
 }
 
+
 #CARTBOOK DATAMODEL : SINGLE CART BOOK
 type CartBook {
   id: ID! @unique

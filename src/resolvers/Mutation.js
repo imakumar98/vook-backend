@@ -1,7 +1,10 @@
+//IMPORT LIBRARIES
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {randomBytes} = require('crypto');
 const axios = require('axios');
+
+//IMPORT UTIL FUNCTIONS
 const calcTotalPrice = require('./calcTotalPrice');
 const {getOrderProductObjectForMail} = require('./utilFunctions');
 
@@ -129,7 +132,7 @@ const Mutation = {
 
     async deleteBook(parent,args,ctx,info){
 
-        //Find book
+        //CHECK IF THAT BOOK EXIST
         const book = await ctx.db.query.book({
             where: {id:args.id}
         });
@@ -178,12 +181,6 @@ const Mutation = {
         await ctx.db.mutation.deleteManyTags({
             where: {book:book}
         });
-
-        
-
-
-
-        
 
         const updatedBook = await ctx.db.mutation.updateBook({
             data : {

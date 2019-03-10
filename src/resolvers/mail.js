@@ -4,7 +4,6 @@ var Key = require('./../config/keys');
 
 //SEND PASSWORD RESET MAIL
 
-exports.sendPasswordResetMail
 
 
 
@@ -30,9 +29,6 @@ exports.sendFeedbackEmail = function(customerEmail,customerName){
             reject(err);
         });
     });
-        
-
-        
 }
 
 
@@ -61,7 +57,6 @@ exports.sendDispatchedEmail = function(customerEmail,customerName,orderNumber,or
             reject(err);
         });
     });
-    
 }
 
 
