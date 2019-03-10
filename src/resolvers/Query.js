@@ -47,29 +47,7 @@ const Query = {
      async getSingleBookBySlug(parent,args,ctx,info){
         const book = await ctx.db.query.book({
             where : {slug: args.slug}
-        },`{
-            id
-            title
-            author
-            dateTime
-            detail
-            publisher {
-                name
-                discount
-            }
-            category{
-                name
-            }
-            type {
-                name
-            }
-            images {
-                src
-            }
-            mrp
-            sku,
-            slug
-        }`);
+        },info);
         if(!book) throw new Error("Book Not Exist");
         return book;
 

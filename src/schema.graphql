@@ -6,30 +6,30 @@ type SuccessMessage {
 
 type Mutation {
     
-    # signup(email: String!, password: String!, name: String!): User!
-    # signin(email: String!, password: String!): User!
-    # signout: SuccessMessage
-    # requestReset(email: String!): SuccessMessage
-    # resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
-    # addToCart(id:ID!,quantity: Int!,type: String!): CartProduct
-    # removeFromCart(id:ID!): CartProduct
-    # createOrder(
-    #     email: String
-    #     number: String
-    #     streetAddress: String
-    #     city: String
-    #     state: String
-    #     postalCode: String
-    #     couponCode: String
-    #     isVookBalanceUsed: Boolean
-    #     addressSetToDefault: Boolean
+    signup(email: String!, password: String!, name: String!): User!
+    signin(email: String!, password: String!): User!
+    signout: SuccessMessage
+    requestReset(email: String!): SuccessMessage
+    resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+    addToCart(id:ID!,quantity: Int!,type: String!): CartBook
+    removeFromCart(id:ID!): CartBook
+    createOrder(
+        email: String
+        number: String
+        streetAddress: String
+        city: String
+        state: String
+        postalCode: String
+        couponCode: String
+        isVookBalanceUsed: Boolean
+        addressSetToDefault: Boolean
 
-    # ): Order!
+    ): Order!
 
-    # #Postal Code
-    # createPostalCode(code:String!): PostalCode!
+    #Postal Code
+    createPostalCode(code:String!): PostalCode!
 
-    # submitContactUs(firstName: String, lastName: String, email: String, number: String, message: String): SuccessMessage!
+    submitContactUs(firstName: String, lastName: String, email: String, number: String, message: String): SuccessMessage!
 
     #CREATE BOOK CATEGORIES
     createCategory(name: String!): SuccessMessage!
