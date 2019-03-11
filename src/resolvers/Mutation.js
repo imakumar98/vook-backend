@@ -179,7 +179,7 @@ const Mutation = {
             }else if(args.type=='UpdateQuantity'){
                 
                 return ctx.db.mutation.updateCartBook({
-                    where: {id: existingCartProduct.id},
+                    where: {id: existingCartBook.id},
                     data: {quantity: parseInt(args.quantity)},
                 },info)
             }
@@ -191,7 +191,7 @@ const Mutation = {
                 user: {
                     connect: {id: userId},  
                 },
-                product: {
+                book: {
                     connect: {
                         id: args.id
                     }
@@ -241,13 +241,15 @@ const Mutation = {
                 cart {
                     id 
                     quantity 
-                    product {
+                    book {
                         id
                         title
                         author
-                        publisher
+                        publisher{
+                            name
+                            discount
+                        }
                         mrp 
-                        discount
                         images {
                             src
                         }
@@ -255,6 +257,8 @@ const Mutation = {
                 }
             }`
         );
+
+        console.log(user.cart);
 
         //2. CHECK FOR ALL REQUIRED FIELD PROVIDED(VALIDATION)
         if(!args.number) throw new Error("Phone number field is required!! ");
@@ -304,12 +308,11 @@ const Mutation = {
         //6. CONVERT CART PRODUCTS TO ORDER PRODUCTS
         const orderItems = user.cart.map(cartItem=>{
             const orderItem = {
-                title: cartItem.product.title,
-                author: cartItem.product.author,
-                publisher: cartItem.product.publisher,
-                price: Math.round(cartItem.product.mrp - (cartItem.product.mrp * (cartItem.product.discount/100))),
-                price: getPrice(cartItem.product.mrp,cartItem.product.publisher.discount),
-                image: cartItem.product.images[0].src,
+                title: cartItem.book.title,
+                author: cartItem.book.author,
+                publisher: cartItem.book.publisher.name,
+                price: getPrice(cartItem.book.mrp,cartItem.book.publisher.discount),
+                image: cartItem.book.images[0].src,
                 quantity: cartItem.quantity,
                 user: { connect: {id: userId} }
             }
@@ -341,17 +344,18 @@ const Mutation = {
                 postalCode: args.postalCode,
                 subTotal: subTotal,
                 total: total,
-                status: 'PROCESSING',
-                products: {create: orderItems},
+                status: 1,
+                orderDateTime: new Date(),
+                books: {create: orderItems},
                 user: {connect: {id:userId}},
                orderId: orderId
             }
         },info)
 
         //8. CLEAN UP - CLEAR THE USER CART, DELETE CART PRODUCTS
-        const cartProductIds = user.cart.map(cartItem=>cartItem.id);
-        await ctx.db.mutation.deleteManyCartProducts({where: {
-            id_in: cartProductIds
+        const cartBookIds = user.cart.map(cartItem=>cartItem.id);
+        await ctx.db.mutation.deleteManyCartBooks({where: {
+            id_in: cartBookIds
         }})
 
         //9. Create Order Invoice
@@ -370,7 +374,7 @@ const Mutation = {
         
 
         //11 SEND EMAIL FOR THE ORDER GENERATION(TO ME)
-        const object = getOrderProductObjectForMail(order.products);
+        const object = getOrderProductObjectForMail(order.books);
         const response = await axios({
             method: 'post',
             url: process.env.ELASTIC_EMAIL_API_URL,

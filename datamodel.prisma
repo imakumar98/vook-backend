@@ -115,7 +115,7 @@ type Order {
   books: [OrderBook!]!
   subTotal: Float
   total: Float
-  status: String!
+  status: Int!
   user: User!
   orderDateTime: DateTime
 }

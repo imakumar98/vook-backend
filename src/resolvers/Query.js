@@ -73,6 +73,7 @@ const Query = {
                     id
                     title
                     author
+                    slug
                     publisher{
                         name
                         discount
@@ -89,8 +90,9 @@ const Query = {
 
     //GET BOOK BY CATEGORY
     async getBooksByCategory(parent,args,ctx,info){
+        console.log(args);
         return await ctx.db.query.category({
-            where: {id: args.id}
+            where: {name: args.name}
         },info);
     },
 
@@ -121,6 +123,11 @@ const Query = {
     //GET ALL BOOK PUBLISHERS
     async getPublishers(parent,args,ctx,info){
         return await ctx.db.query.publishers({},info);
+    },
+
+    //GET ALL ORDERS QUERY RESOLVER
+    async getAllOrders(parent,args,ctx,info){
+        return await ctx.db.query.orders({},info);
     }
 
 }

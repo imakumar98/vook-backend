@@ -6,13 +6,28 @@ type SuccessMessage {
 
 type Mutation {
     
+    #SIGN UP RESOLVER
     signup(email: String!, password: String!, name: String!): User!
+
+    #SIGNIN RESOLVER 
     signin(email: String!, password: String!): User!
+
+    #SIGNOUT RESOLVER
     signout: SuccessMessage
+
+    #REQUEST RESET PASSWORD RESOLVER
     requestReset(email: String!): SuccessMessage
+
+    #SET NEW PASSWORD RESOLVER
     resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+
+    #ADD TO CART BOOK RESOLVER
     addToCart(id:ID!,quantity: Int!,type: String!): CartBook
+
+    #REMOVE BOOK FROM CART RESOLVER
     removeFromCart(id:ID!): CartBook
+
+    #CREATE ORDER RESOLVER
     createOrder(
         email: String
         number: String
@@ -26,9 +41,10 @@ type Mutation {
 
     ): Order!
 
-    #Postal Code
+    #CREATE POSTAL CODE
     createPostalCode(code:String!): PostalCode!
 
+    #SUBMIT CONTACT US FORM RESOLVER
     submitContactUs(firstName: String, lastName: String, email: String, number: String, message: String): SuccessMessage!
 
     #CREATE BOOK CATEGORIES
@@ -101,7 +117,7 @@ type Query {
     getSingleBookBySlug(slug:String!):Book!
 
     #GET BOOKS BY CATEGORY (ADMIN, PUBLIC)
-    getBooksByCategory(id: String!): Category!
+    getBooksByCategory(name: String!): Category!
 
     book(where: BookWhereUniqueInput!): Book!
 
@@ -111,10 +127,6 @@ type Query {
     #GET MY ORDERS
     getMyOrders:[Order!]!
 
-    
-
-   
-
     #GET ALL CATEGORIES
     getCategories: [Category!]!
 
@@ -123,6 +135,9 @@ type Query {
 
     #GET ALL PUBLISHER 
     getPublishers: [Publisher!]! 
+
+    #GET ALL ORDERS QUERY RESOLVER (ADMIN)
+    getAllOrders: [Order]!
 }
 
 
