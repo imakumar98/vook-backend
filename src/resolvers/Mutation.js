@@ -203,7 +203,7 @@ const Mutation = {
 
     async removeFromCart(parent,args,ctx,info){
         //1. FIND THE CART PRODUCT
-        
+        console.log(args.id);
         const cartBook = await ctx.db.query.cartBook({
             where: {
                 id: args.id
@@ -211,6 +211,10 @@ const Mutation = {
         },
             `{id, user{ id }}`
         );
+
+        console.log(cartBook);
+
+
         
         //1. MAKE SURE WE FOUND AN PRODUCT
         if(!cartBook){
@@ -221,7 +225,7 @@ const Mutation = {
         if(cartBook.user.id !==ctx.request.userId){
             throw new Error('Cheatin huhh');
         }
-        //3. Delete that cart product
+        //3. Delete THAT CART BOOK
         return ctx.db.mutation.deleteCartBook({
             where: {id: args.id},
         },info);
@@ -476,7 +480,7 @@ const Mutation = {
         const name = await ctx.db.query.type({
             where: {name: args.name.toLowerCase()}
         });
-        if(name) throw new Error("This category already exist!!");
+        if(name) throw new Error("This type already exist!!");
         const category = await ctx.db.query.category({
             where : {name: args.category.toLowerCase()}
         });

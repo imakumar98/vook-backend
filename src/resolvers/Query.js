@@ -7,27 +7,7 @@ const Query = {
         return await ctx.db.query.books({
             where : {active:true},
             orderBy: 'sku_DESC'
-        },`{
-            id
-            title
-            author
-            dateTime
-            publisher {
-                name
-                discount
-            }
-            category{
-                name
-            }
-            type {
-                name
-            }
-            images {
-                src
-            }
-            mrp
-            sku
-        }`);
+        },info);
         
     },
 
@@ -51,6 +31,20 @@ const Query = {
         if(!book) throw new Error("Book Not Exist");
         return book;
 
+    },
+
+    async getTypesByCategory(parent,args,ctx,info){
+        const category = await ctx.db.query.category({
+            where: {name: args.name}
+        },info);
+
+        if(!category) throw new Error("Category Not Exist");
+
+        const types = await ctx.db.query.types({
+            where: {category: category}
+        },info); 
+        console.log(types);
+        return types;
     },
 
     book: forwardTo('db'),

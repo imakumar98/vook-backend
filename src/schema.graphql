@@ -138,6 +138,9 @@ type Query {
 
     #GET ALL ORDERS QUERY RESOLVER (ADMIN)
     getAllOrders: [Order]!
+
+    #GET LIST OF TYPES BY CATEGORY
+    getTypesByCategory(name: String!): [Type!]!
 }
 
 
